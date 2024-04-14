@@ -6,12 +6,12 @@ const locales = {
             lang: "en"
         },
         ja: {
-            label: "日本語",
+            label: "Japanese",
             lang: "ja"
         },
-        cn: {
-            label: "中国語",
-            lang: "cn"
+        "zh-hans": {
+            label: "Chinese",
+            lang: "zh-hans"
         }
     }
 }
