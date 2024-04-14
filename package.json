@@ -1,0 +1,102 @@
+{
+  "name": "edit-i18n",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "",
+  "author": {
+    "name": "toramame-seven"
+  },
+  "main": "dist/extension.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "pnpm clean && node esbuild.config.mjs",
+    "test": "vitest",
+    "prettier:check":"prettier . --check",
+    "xeslint": "eslint --cache --max-warnings=0",
+    "eslint:src": "eslint ./src",
+    "tsc": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "vscode:ls": "pnpx @vscode/vsce ls --no-dependencies",
+    "vscode:package": "pnpx @vscode/vsce package --no-dependencies",
+    "vscode:publish": "pnpx @vscode/vsce publish --no-dependencies",
+    "vscode:prepublish": "pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "18.17.15",
+    "@types/vscode": "1.81.0",
+    "esbuild": "0.19.2",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "3.2.5",
+    "rimraf": "5.0.1",
+    "typescript": "5.2.2",
+    "typescript-eslint": "^7.6.0",
+    "vitest": "0.34.4"
+  },
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "packageManager": "pnpm@8.7.5",
+  "private": true,
+  "sideEffects": false,
+  "keywords": [
+    "documentation",
+    "internationalization",
+    "i18n",
+    "translation"
+  ],
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": "",
+  "contributes": {
+    "commands": [
+      {
+        "command": "edit-i18n.start",
+        "title": "edit-i18n"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "edit-i18n.start",
+          "group": "edit-i18n@1",
+          "when": "!explorerResourceIsFolder"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "edit-i18n",
+      "properties": {
+        "edit-i18n.template-newFile": {
+          "default": "",
+          "description": "The template text for a new file.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "displayName": "edit-i18n",
+  "publisher": "toramameseven",
+  "categories": [
+    "Other"
+  ],
+  "preview": true,
+  "icon": "assets/edit-translate.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  }
+}
