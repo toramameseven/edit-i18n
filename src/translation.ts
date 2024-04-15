@@ -17,7 +17,7 @@ export interface Locale {
 
 export function getTranslationInfo(translationJs: string) {
     delete require.cache[require.resolve(translationJs)];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const r: LocaleInfo = require(translationJs);
     return r;
 }
