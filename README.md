@@ -13,7 +13,7 @@ Install this extension.
 
 If you have the document structure below, you create `.translation.js`.
 
-* folder structure
+### folder structure
 
 ```
 └─content
@@ -30,7 +30,7 @@ If you have the document structure below, you create `.translation.js`.
 ```
 
 
-* .translation.js
+### .translation.js
 
 ```js,.translation.js
 const locales = {
@@ -64,4 +64,4 @@ module.exports = locales;
 
 Licensed under the MIT License.
 
-See [LICENSE](https://github.com/HiDeoo/starlight-i18n/blob/main/LICENSE).
+See [LICENSE](./LICENSE).
