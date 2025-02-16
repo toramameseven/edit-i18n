@@ -1,6 +1,5 @@
 import esbuild from 'esbuild'
 
-// eslint-disable-next-line no-undef
 const arguments_ = process.argv.slice(2)
 const development = arguments_.includes('--dev')
 

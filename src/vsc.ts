@@ -3,7 +3,8 @@ original code is licensed under the MIT License, Copyright © HiDeoo.
 See [LICENSE](https://github.com/HiDeoo/starlight-i18n/blob/main/LICENSE) for more information. 
 */
 
-import { window, type WorkspaceFolder ,
+import {
+  window, type WorkspaceFolder,
   type Disposable,
   type QuickPick,
   type QuickPickItem,
@@ -11,27 +12,22 @@ import { window, type WorkspaceFolder ,
   workspace,
   type Uri,
 } from 'vscode';
-import type { Locales, Locale } from './translation';
 import * as fs from 'node:fs';
 
 interface LocaleQuickPickItem extends QuickPickItem {
-  locale: Locale
   localeDirectory: string
 }
 
 type TranslationPicker = QuickPick<LocaleQuickPickItem>;
 
-export async function pickTranslationGeneral(locales: Locales
+export async function pickTranslationGeneral(locales: string[]
 ): Promise<LocaleQuickPickItem | undefined> {
 
-  if (Object.keys(locales).length === 1){
-    const r = Object.entries(locales).map(([localeDirectory, locale]) => ({
-      description: locale.lang ?? localeDirectory,
-      label: locale.label,
-      locale,
-      localeDirectory,
-      locales,
-    }))[0];
+  if (locales.length === 1) {
+    const r = {
+      label: locales[0],
+      localeDirectory: locales[0],
+    };
     return r;
   }
 
@@ -59,18 +55,15 @@ export async function pickTranslationGeneral(locales: Locales
       );
 
       try {
-        picker.items = Object.entries(locales).map(([localeDirectory, locale]) => ({
-          description: locale.lang ?? localeDirectory,
-          label: locale.label,
-          locale,
-          localeDirectory,
-          locales,
+        picker.items = locales.map((locale) => ({
+          label: locale,
+          localeDirectory: locale
         }));
       } catch (error) {
         reject(error);
         return;
       }
-      
+
       picker.show();
       picker.busy = false;
       picker.enabled = true;
@@ -86,7 +79,7 @@ export async function pickTranslationGeneral(locales: Locales
 }
 
 function isLocaleQuickPickItem(item: unknown): item is LocaleQuickPickItem {
-  return typeof item === 'object' && item !== null && 'locale' in item;
+  return typeof item === 'object' && item !== null && 'localeDirectory' in item;
 }
 
 
@@ -111,7 +104,7 @@ export function isWorkspaceWithSingleFolder(
   return workspaceFolders !== undefined && workspaceFolders.length === 1;
 }
 
-export function outputLog(message: string){
-    logger.appendLine(message);
+export function outputLog(message: string) {
+  logger.appendLine(message);
 }
 

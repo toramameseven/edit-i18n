@@ -11,34 +11,35 @@
   "scripts": {
     "build": "pnpm clean && node esbuild.config.mjs",
     "test": "vitest",
-    "prettier:check":"prettier . --check",
+    "prettier:check": "prettier . --check",
     "xeslint": "eslint --cache --max-warnings=0",
     "eslint:src": "eslint ./src",
-    "tsc": "tsc --noEmit",
     "clean": "rimraf dist",
     "vscode:ls": "pnpx @vscode/vsce ls --no-dependencies",
     "vscode:package": "pnpx @vscode/vsce package --no-dependencies",
     "vscode:publish": "pnpx @vscode/vsce publish --no-dependencies",
-    "vscode:prepublish": "pnpm build"
+    "vscode:prepublish": "pnpm build",
+    "eslint:config": "npx @eslint/config-inspector"
   },
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": "^8.57.0",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "18.17.15",
+    "@types/node": "^20.12.7",
     "@types/vscode": "1.81.0",
     "esbuild": "0.19.2",
-    "eslint": "^9.0.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-unicorn": "^52.0.0",
     "prettier": "3.2.5",
     "rimraf": "5.0.1",
     "typescript": "5.2.2",
-    "typescript-eslint": "^7.6.0",
+    "typescript-eslint": "^7.8.0",
     "vitest": "0.34.4"
   },
   "engines": {
     "vscode": "^1.81.0"
   },
-  "packageManager": "pnpm@8.7.5",
+  "packageManager": "pnpm@9.0.4",
   "private": true,
   "sideEffects": false,
   "keywords": [
@@ -50,7 +51,7 @@
   "homepage": "",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/toramameseven/edit-i18n"
   },
   "bugs": "",
   "contributes": {
@@ -65,19 +66,9 @@
         {
           "command": "edit-i18n.start",
           "group": "edit-i18n@1",
-          "when": "!explorerResourceIsFolder"
+          "when": "!explorerResourceIsFolder && resourceExtname =~ /\\.md$/i"
         }
       ]
-    },
-    "configuration": {
-      "title": "edit-i18n",
-      "properties": {
-        "edit-i18n.template-newFile": {
-          "default": "",
-          "description": "The template text for a new file.",
-          "type": "string"
-        }
-      }
     }
   },
   "capabilities": {

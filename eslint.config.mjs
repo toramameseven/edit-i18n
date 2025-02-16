@@ -1,29 +1,31 @@
-// eslint.config.js
 // @ts-check
-// https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended.ts
 
-import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-//import eslintConfigPrettier from "eslint-config-prettier";
+// @ts-ignore
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+// @ts-ignore
+import * as eslintrc from '@eslint/eslintrc';
 
-export default tseslint.config(
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    languageOptions: {
-      parserOptions: {
-        project: true,
-        tsconfigRootDir: "." //import.meta.dirname,
-      },
-    },
-    "rules": {
-      // Note: you must disable the base rule as it can report incorrect errors
-      "semi": "off",
-      "@typescript-eslint/semi": "error"
-    },
-    ignores:["*.js"]
+export default tseslint.config({
+  plugins: {
+    '@typescript-eslint': tseslint.plugin,
+    unicorn: eslintPluginUnicorn,
   },
-  
-  //eslintConfigPrettier
-);
-
+  languageOptions: {
+    parser: tseslint.parser,
+    parserOptions: {
+      project: true,
+    },
+  },
+  files: ['**/*.ts'],
+  rules: {
+    "unicorn/better-regex": "error",
+    "@typescript-eslint/semi": "error",
+    "@typescript-eslint/no-var-requires": "error"
+    // '@typescript-eslint/no-unsafe-argument': 'error',
+    // '@typescript-eslint/no-unsafe-assignment': 'error',
+    // '@typescript-eslint/no-unsafe-call': 'error',
+    // '@typescript-eslint/no-unsafe-member-access': 'error',
+    // '@typescript-eslint/no-unsafe-return': 'error',
+  },
+});

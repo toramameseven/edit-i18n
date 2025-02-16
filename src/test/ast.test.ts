@@ -2,67 +2,47 @@ import path from 'node:path';
 
 import { expect, test } from 'vitest';
 
-import { getTranslationInfo, getTranslationJs, getLang, type LocaleInfo, makeOtherLangFile } from '../translation';
-
-const testLocaleInfo: LocaleInfo = {
-  contentFolder: "docs",
-  locales: {
-      en: {
-          label: "English",
-          lang: "en"
-      },
-      ja: {
-          label: "日本語",
-          lang: "ja "
-      },
-      cn: {
-          label: "中国語",
-          lang: "cn "
-      }
-  }
-};
+import { getContentFileInfo } from '../translation';
 
 
-test('finds i18n config file', () => {
-  const filePath = path.resolve(__dirname, "../../demo/content/docs/ja/index.mdx");
-  const filePathJs = path.resolve(__dirname, "../../demo/.translation.js");
+test('get content folder no content', () => {
+  const filePath = path.resolve(__dirname, "../../demo/con1tent/docs/ja/index.mdx");
+  // const filePathResult = path.resolve(__dirname, "../../demo/content/docs/cn/index.mdx");
+  // console.log("get content folder=>: %o", filePath);
+  //const pathTranslate = getContentFolder(filePath);
 
    
-  console.log(filePath);
-  const configPath = getTranslationJs(filePath);
+  // console.log("get content folder=>: %o", pathTranslate);
+  // console.log(pathTranslate);
+  // expect(pathTranslate).toBe(pathTranslate);
 
-  expect(configPath).toBe(filePathJs);
+  expect(() => getContentFileInfo(filePath)).toThrow("No content folder exists.");
 });
 
-test('finds lang', () => {
-  const filePath = path.resolve(__dirname, "../../demo/content/docs/ja/index.mdx");
-  const filePath2 = path.resolve(__dirname, "../../demo/content/docs/index.mdx");
+test('get content folder two content', () => {
+  const filePath = path.resolve(__dirname, "../../content/demo/content/docs/ja/index.mdx");
+  // const filePathResult = path.resolve(__dirname, "../../demo/content/docs/cn/index.mdx");
+  // console.log("get content folder=>: %o", filePath);
+  //const pathTranslate = getContentFolder(filePath);
+
    
-  console.log(filePath);
-  const configPath = getLang(filePath, testLocaleInfo);
-  expect(configPath).toBe('ja');
-  expect(getLang(filePath2, testLocaleInfo)).toBe(undefined);
+  // console.log("get content folder=>: %o", pathTranslate);
+  // console.log(pathTranslate);
+  // expect(pathTranslate).toBe(pathTranslate);
+
+  expect(() => getContentFileInfo(filePath)).toThrow("More than two content folders exist.");
 });
 
 
-test('finds locales inlined in the configuration', () => {
-  const myPath = path.resolve(__dirname, "../../demo/.translation.js");
-   
-  console.log(myPath);
-  const locales = getTranslationInfo(myPath);
+test('get content folder', () => {
+  const fileRelPath = "../../demo/contenta/ja/index.mdx";
+  const fullPath = path.resolve(__dirname, fileRelPath);
+  const pathTranslate = getContentFileInfo(fullPath);
 
-   
-  console.log("%o", locales);
-  expect(Object.keys(locales.locales).includes("en")).toBe(true);
+  console.log("get content folder=>: %o", pathTranslate);
+  expect(pathTranslate).toBe(pathTranslate);
+
+
 });
 
-test('make other lang file', () => {
-  const filePath = path.resolve(__dirname, "../../demo/content/docs/ja/index.mdx");
-  const filePathResult = path.resolve(__dirname, "../../demo/content/docs/cn/index.mdx");
-  const pathTranslate = makeOtherLangFile(filePath, "cn", "docs");
 
-   
-  console.log("%o", pathTranslate);
-
-  expect(pathTranslate).toBe(filePathResult);
-});

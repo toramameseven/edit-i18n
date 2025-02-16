@@ -3,11 +3,12 @@ original code is licensed under the MIT License, Copyright © HiDeoo.
 See [LICENSE](https://github.com/HiDeoo/starlight-i18n/blob/main/LICENSE) for more information. 
 */
 
-import { getTranslationJs, makeOtherLangFile, getTranslationInfo, getLang } from './translation';
+import { getContentFileInfo } from './translation';
 
 
 import { commands, type ExtensionContext, window, Uri } from 'vscode';
 import { pickTranslationGeneral, openFileTranslation, outputLog, openFileSource } from './vsc';
+import path from 'node:path';
 
 /**
  * Entry point
@@ -31,22 +32,18 @@ async function openOtherLangFile(sourceFile: Uri) {
     // open source file.
     await openFileSource(sourceFile);
 
-    const translationJs = getTranslationJs(sourceFile.fsPath);
-    if (!translationJs) {
-      throw new Error('No .translation.js file.');
-    }
+    // get content folder
+    const fileInfo = getContentFileInfo(sourceFile.fsPath);
 
-    const translationInfo = getTranslationInfo(translationJs);
-    const lang = getLang(sourceFile.fsPath, translationInfo);
+    // select edit locale
+    const localePickItem = await pickTranslationGeneral(fileInfo.languages);
+    const lang = localePickItem?.localeDirectory;
     if (!lang) {
       throw new Error('No language. language folder or language settings.');
     }
 
-    delete translationInfo.locales[lang];
-    const locales = translationInfo.locales;
-    const localePickItem = await pickTranslationGeneral(locales);
-    const pathInfo = makeOtherLangFile(sourceFile.fsPath, localePickItem?.locale.lang ?? "", translationInfo.contentFolder);
-
+    // open or create file
+    const pathInfo = path.join(fileInfo.contentPath, lang, fileInfo.fileRelPath);
     await openFileTranslation(Uri.file(pathInfo));
   } catch (error) {
     const isError = error instanceof Error;
